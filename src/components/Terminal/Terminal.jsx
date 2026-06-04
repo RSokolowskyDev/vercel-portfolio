@@ -33,13 +33,22 @@ export const Terminal = (props) => {
                     <p key={index} className="mb-[6px]">{highlight(entry.message)}</p>
                 ))}
             </div>
-            <div className="flex items-center p-2.5">
+            <div className="relative flex items-center p-2.5">
+                <div
+                    aria-hidden="true"
+                    className="absolute left-2.5 right-2.5 pointer-events-none text-sm tracking-[0.2em] uppercase whitespace-pre overflow-hidden"
+                >
+                    {value.length === 0
+                        ? <span className="text-zinc-100">{props.placeholder}</span>
+                        : highlight(value)
+                    }
+                </div>
                 <input
-                    className="placeholder:opacity-100 placeholder:text-zinc-100 w-full bg-transparent border-none outline-none text-sm text-zinc-100 tracking-[0.2em] uppercase caret-[#F2360C]"
+                    className="w-full bg-transparent border-none outline-none text-sm text-transparent tracking-[0.2em] uppercase caret-[#F27329] relative z-10"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleCommand()}
-                    placeholder={props.placeholder}
+                    placeholder=""
                 />
             </div>
         </div>
