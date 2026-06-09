@@ -5,5 +5,47 @@
 @layer base {
   body {
     background-color: theme('colors.zinc.900');
+    transition: background-color 0.6s ease-in-out;
   }
+}
+
+/* ============================================================
+   Theme transition — layered peel effect
+   Fade OUT: front → back  (text first, then card backplates)
+   Fade IN:  back → front  (card backplates first, then text)
+
+   main stays at opacity:1 always so backdrop-filter works.
+   ============================================================ */
+
+main {
+  transform: translateZ(0);
+}
+
+/* FADE OUT — 1. Text leaves first */
+html.changing-theme main h1,
+html.changing-theme main h2,
+html.changing-theme main h3,
+html.changing-theme main p {
+  opacity: 0;
+  transition: opacity 0.15s ease-in;
+}
+
+/* FADE OUT — 2. Card backplates leave after text */
+html.changing-theme main .theme-card {
+  opacity: 0;
+  transition: opacity 0.3s ease-in 0.15s;
+}
+
+/* FADE IN — card backplates first, then text layers on top */
+html:not(.changing-theme) main .theme-card {
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+
+html:not(.changing-theme) main h1,
+html:not(.changing-theme) main h2,
+html:not(.changing-theme) main h3,
+html:not(.changing-theme) main p {
+  opacity: 1;
+  transition: opacity 0.3s ease-out 0.2s;
 }

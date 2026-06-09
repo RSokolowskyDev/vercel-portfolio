@@ -14,34 +14,33 @@ export const DotsGrid = ({
   dotSize = '1vw',
 }) => {
   const containerRef = useRef(null);
+  const dotsRef      = useRef([]);
+  const centersRef   = useRef([]);
+  const colorsRef    = useRef({ base: dotColor, active: activeColor });
 
+  // Grid builder — only reruns when layout params change, never on color change
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     container.style.fontSize = dotSize;
 
-    const colors        = { base: dotColor, active: activeColor };
-    const threshold     = 150;
+    const threshold      = 150;
     const speedThreshold = 100;
-    const shockRadius   = 250;
-    const shockPower    = 5;
-    const maxSpeed      = 5000;
-
-    let dots       = [];
-    let dotCenters = [];
+    const shockRadius    = 250;
+    const shockPower     = 5;
+    const maxSpeed       = 5000;
 
     function buildGrid() {
       container.innerHTML = '';
-      dots       = [];
-      dotCenters = [];
+      dotsRef.current    = [];
+      centersRef.current = [];
 
       const style  = getComputedStyle(container);
       const dotPx  = parseFloat(style.fontSize);
       const gapPx  = dotPx * 2;
       const contW  = container.clientWidth;
-      const contH = document.body.scrollHeight;
-
+      const contH  = document.body.scrollHeight;
 
       const cols  = Math.floor((contW + gapPx) / (dotPx + gapPx));
       const rows  = Math.floor((contH + gapPx) / (dotPx + gapPx));
@@ -66,23 +65,23 @@ export const DotsGrid = ({
           d.style.visibility = 'hidden';
           d._isHole = true;
         } else {
-          gsap.set(d, { x: 0, y: 0, backgroundColor: colors.base });
+          gsap.set(d, { x: 0, y: 0, backgroundColor: colorsRef.current.base });
           d._inertiaApplied = false;
         }
 
         container.appendChild(d);
-        dots.push(d);
+        dotsRef.current.push(d);
       }
 
       requestAnimationFrame(() => {
-        dotCenters = dots
+        centersRef.current = dotsRef.current
           .filter(d => !d._isHole)
           .map(d => {
             const r = d.getBoundingClientRect();
             return {
               el: d,
-              x:  r.left + window.scrollX + r.width  / 2,
-              y:  r.top  + window.scrollY + r.height / 2,
+              x: r.left + window.scrollX + r.width  / 2,
+              y: r.top  + window.scrollY + r.height / 2,
             };
           });
       });
@@ -104,15 +103,13 @@ export const DotsGrid = ({
         vx *= scale; vy *= scale; speed = maxSpeed;
       }
 
-      lastTime = now;
-      lastX    = e.pageX;
-      lastY    = e.pageY;
+      lastTime = now; lastX = e.pageX; lastY = e.pageY;
 
       requestAnimationFrame(() => {
-        dotCenters.forEach(({ el, x, y }) => {
+        centersRef.current.forEach(({ el, x, y }) => {
           const dist = Math.hypot(x - e.pageX, y - e.pageY);
           const t    = Math.max(0, 1 - dist / threshold);
-          const col  = gsap.utils.interpolate(colors.base, colors.active, t);
+          const col  = gsap.utils.interpolate(colorsRef.current.base, colorsRef.current.active, t);
           gsap.set(el, { backgroundColor: col });
 
           if (speed > speedThreshold && dist < threshold && !el._inertiaApplied) {
@@ -133,7 +130,7 @@ export const DotsGrid = ({
     }
 
     function handleClick(e) {
-      dotCenters.forEach(({ el, x, y }) => {
+      centersRef.current.forEach(({ el, x, y }) => {
         const dist = Math.hypot(x - e.pageX, y - e.pageY);
         if (dist < shockRadius && !el._inertiaApplied) {
           el._inertiaApplied = true;
@@ -163,7 +160,15 @@ export const DotsGrid = ({
       window.removeEventListener('click', handleClick);
       container.innerHTML = '';
     };
-  }, [dotColor, activeColor, centerHole, dotSize]);
+  }, [centerHole, dotSize]);
+
+  // Color-only update — just repaints existing dots, no rebuild
+  useEffect(() => {
+    colorsRef.current = { base: dotColor, active: activeColor };
+    dotsRef.current.forEach(d => {
+      if (!d._isHole) gsap.set(d, { backgroundColor: dotColor });
+    });
+  }, [dotColor, activeColor]);
 
   return (
     <div className={styles.dotsWrap} style={{ opacity }}>
