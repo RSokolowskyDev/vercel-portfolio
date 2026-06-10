@@ -1,0 +1,53 @@
+/* basic */
+.button {
+  @apply font-bold uppercase outline-none px-4 py-2;
+}
+
+/* colors */
+.buttonBlack {
+  @apply text-zinc-50 bg-zinc-950 ring-zinc-950 hover:bg-zinc-800 active:text-zinc-300 focus-visible:ring-2 ring-offset-2 ring-offset-zinc-50;
+}
+
+.buttonBlack.buttonDisabled {
+  @apply bg-zinc-500 text-zinc-600 cursor-default;
+}
+
+.buttonWhite {
+  @apply text-zinc-950 bg-zinc-50 ring-zinc-50 hover:bg-zinc-200 active:text-zinc-700 focus-visible:ring-2 ring-offset-2 ring-offset-zinc-950;
+}
+
+.buttonWhite.buttonDisabled {
+  @apply bg-zinc-300 text-zinc-400 cursor-default;
+}
+
+.buttonGlass {
+  @apply normal-case text-white/80 bg-white/10 border border-white/20 rounded-full backdrop-blur-sm hover:bg-white/20 hover:text-white active:bg-white/30 focus-visible:ring-2 ring-white/30 transition-colors;
+}
+
+.buttonGlass.buttonDisabled {
+  @apply bg-white/5 text-white/30 cursor-default;
+}
+
+.buttonOutline {
+  @apply normal-case text-zinc-100 bg-zinc-700 backdrop-blur-sm border border-zinc-600 rounded-full hover:bg-zinc-900 hover:border-zinc-800 active:text-zinc-300 focus-visible:ring-2 ring-zinc-500 transition-colors duration-[800ms];
+}
+
+:global(.dark) .buttonOutline {
+  @apply text-zinc-900 bg-zinc-300 border-zinc-400 ring-zinc-400;
+}
+
+:global(.dark) .buttonOutline:hover {
+  @apply bg-zinc-100 border-zinc-300;
+}
+
+:global(.dark) .buttonOutline:active {
+  @apply text-zinc-600;
+}
+
+.buttonOutline.buttonDisabled {
+  @apply text-zinc-400 border-zinc-300 cursor-default;
+}
+
+:global(.dark) .buttonOutline.buttonDisabled {
+  @apply text-zinc-600 border-zinc-800;
+}

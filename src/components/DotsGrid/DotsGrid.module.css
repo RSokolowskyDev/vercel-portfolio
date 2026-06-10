@@ -1,0 +1,32 @@
+.dotsWrap {
+  width: 100%;
+  min-height: 100%;
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+
+.dotsContainer {
+  grid-column-gap: 2em;
+  grid-row-gap: 2em;
+  pointer-events: none;
+  flex-flow: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+}
+
+.dot {
+  will-change: transform, background-color;
+  transform-origin: center;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  position: relative;
+  transform: translate(0);
+}
