@@ -108,11 +108,13 @@ const skillImages = {
 
 export default function SkillsCanvas() {
   const canvasRef = useRef(null);
-  const labelColorRef = useRef(document.documentElement.classList.contains('dark') ? '#fff' : '#0a0a0a');
+  const labelColorRef = useRef('#fff');
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    labelColorRef.current = document.documentElement.classList.contains('dark') ? '#fff' : '#0a0a0a';
 
     const observer = new MutationObserver(() => {
       labelColorRef.current = document.documentElement.classList.contains('dark') ? '#fff' : '#0a0a0a';
