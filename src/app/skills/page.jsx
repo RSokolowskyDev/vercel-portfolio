@@ -1,3 +1,4 @@
+// Note: this page was originally named "uses" (/uses) and renamed to "skills" (/skills) — same content, same purpose.
 import SkillsCanvas from '@/components/SkillsCanvas/SkillsCanvas';
 
 export const metadata = {
