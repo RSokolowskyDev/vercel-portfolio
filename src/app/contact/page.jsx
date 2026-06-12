@@ -34,7 +34,7 @@ export default function Home() {
             </div>
 
             <p className="text-zinc-700 dark:text-zinc-200 text-sm leading-relaxed tracking-[0.2em] uppercase">
-              Open to <span className="text-[#F2360C] font-bold">internships</span>, <span className="text-[#BF0413] font-bold">freelance projects</span>, and <span className="text-[#F27329] font-bold">collaborations</span> in AI engineering, automation, and software development. Whether you have a problem worth solving or just want to connect — I'd love to hear from you.
+              Open to <span className="text-[#F2360C] font-bold">internships</span>, <span className="text-[#BF0413] font-bold">freelance projects</span>, and <span className="text-[#F27329] font-bold">collaborations</span> in AI engineering, automation, and software development. Whether you have a problem worth solving or just want to connect — I&apos;d love to hear from you.
             </p>
           </div>
 
